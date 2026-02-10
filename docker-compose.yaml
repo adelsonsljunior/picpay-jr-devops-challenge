@@ -1,4 +1,4 @@
-version: "3.9"
+name: picpay-jr-devops-challenge
 services:
   web:
     build: services/frontend
