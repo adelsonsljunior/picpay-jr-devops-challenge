@@ -4,9 +4,6 @@ services:
     build: services/frontend
     ports:
       - "3000:3000"
-    networks:
-      - frontend
-      - backend
     depends_on:
       writer:
         condition: service_started
@@ -18,7 +15,6 @@ services:
     ports:
       - "8081:8081"
     networks:
-      - frontend
       - backend
     depends_on:
       redis:
@@ -47,4 +43,3 @@ services:
 
 networks:
   backend:
-  frontend:
