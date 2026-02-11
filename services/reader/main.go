@@ -13,8 +13,7 @@ func main() {
 	redis_port := "6379"
 	mux := http.NewServeMux()
 
-	client := redis.NewClient(&redis.Options{Addr: redis_host + ":" + redis_port})
-	key := client.Get("SHAREDKEY")
+
 
 	mux.HandleFunc("/health", func(writer http.ResponseWriter, request *http.Request) {
 		if request.Method == "OPTIONS" {
@@ -25,6 +24,9 @@ func main() {
 	})
 
 	mux.HandleFunc("/data", func(writer http.ResponseWriter, request *http.Request) {
+		client := redis.NewClient(&redis.Options{Addr: redis_host + ":" + redis_port})
+		key := client.Get("SHAREDKEY")
+
 		fmt.Fprintf(writer, key.Val())
 	})
 
