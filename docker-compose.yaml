@@ -7,18 +7,27 @@ services:
     networks:
       - frontend
       - backend
+
   reader:
     build: services/reader
     ports:
       - "8081:8081"
     networks:
       - frontend
+    depends_on:
+      redis:
+        condition: service_healthy
+
   writer:
     build: services/writer
     ports:
       - "8080:8080"
     networks:
       - backend
+    depends_on:
+      redis:
+        condition: service_healthy
+
   redis:
     image: "redis:alpine"
     command:
@@ -32,7 +41,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 5s
-  
 
 networks:
   backend:
