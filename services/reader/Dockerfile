@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine as builder
+FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
 
@@ -10,6 +10,12 @@ RUN go mod tidy
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
+FROM cgr.dev/chainguard/static:latest
+
+COPY --from=builder /app/main /
+
+USER nonroot
+
 EXPOSE 8081
 
-CMD ["go","run","main.go"]
+CMD ["/main"]
