@@ -1,15 +1,22 @@
-FROM python:3.12-alpine
+FROM cgr.dev/chainguard/python:latest-dev AS builder
 
 WORKDIR /app
 
+RUN python -m venv venv
 COPY requirements.txt .
+RUN ./venv/bin/pip install --no-cache-dir -r requirements.txt
 
+FROM cgr.dev/chainguard/python:latest
+
+WORKDIR /app
+
+COPY --from=builder /app/venv ./venv
 COPY main.py .
 
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PATH="/app/venv/bin:$PATH"
 
 EXPOSE 8080
 
-ENTRYPOINT ["python"]
+USER nonroot
 
-CMD ["main.py"]
+ENTRYPOINT ["python", "main.py"]
