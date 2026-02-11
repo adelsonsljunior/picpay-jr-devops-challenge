@@ -22,7 +22,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
         if self.path == "/health":
-            self.wfile.write(bytes(f"up", "utf8"))
+            self.wfile.write(bytes("up", "utf8"))
 
         return
 
