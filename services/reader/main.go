@@ -14,6 +14,9 @@ func main() {
     redis_port := "6379"
     mux := http.NewServeMux()
 
+    client := redis.NewClient(&redis.Options{Addr: redis_host+":"+redis_port})
+    key := client.Get("SHAREDKEY")
+
     mux.HandleFunc("/health", func(writer http.ResponseWriter, request *http.Request){
         if request.Method == "OPTIONS" {
             writer.WriteHeader(http.StatusOK)
@@ -21,10 +24,9 @@ func main() {
         }
         fmt.Fprintf(writer, "up")
     })
+    
 
     mux.HandleFunc("/data", func(writer http.ResponseWriter, request *http.Request) {
-        client := redis.NewClient(&redis.Options{Addr: redis_host+":"+redis_port})
-        key := client.Get(client.Context(),"SHAREDKEY")
         fmt.Fprintf(writer, key.Val())
     })
 
@@ -32,7 +34,8 @@ func main() {
         AllowedOrigins: []string{"*"},
         AllowedHeaders: []string{"*"},
     }).Handler(mux)
-
+    
+    log.Println("Server starting on :8081")
     log.Fatal(http.ListenAndServe(":8081", handler))
 
 }
