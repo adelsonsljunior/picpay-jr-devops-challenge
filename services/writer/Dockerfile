@@ -1,6 +1,8 @@
-FROM python:3.9
+FROM python:3.12-alpine
 WORKDIR /app
-ADD . /app
-EXPOSE 8081
-CMD ["python"]
-ENTRYPOINT ["main.py"]
+COPY requirements.txt .
+COPY main.py .
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 8080
+ENTRYPOINT ["python"]
+CMD ["main.py"]
