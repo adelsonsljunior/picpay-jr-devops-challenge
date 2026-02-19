@@ -1,5 +1,11 @@
 # Desafio DevOps jr PicPay
 
+## Como rodar
+
+~~~bash
+docker compose up
+~~~
+
 ## Desenho
 
 ![desenho](.github/images/diagram.png)
