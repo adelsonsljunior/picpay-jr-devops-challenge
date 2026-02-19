@@ -10,6 +10,16 @@ docker compose up
 
 ![desenho](.github/images/diagram.png)
 
+## Otimização das Imagens Docker
+
+> ### Imagens Iniciais
+
+![initial-images](.github/images/initial-images.png)
+
+> ### Imagens Otimizadas
+
+![optimized-images](.github/images/optimized-images.png)
+
 ---
 
 ## Conteúdo do repositório
